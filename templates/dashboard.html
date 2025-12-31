@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-label">Study sessions</div>
+    <div class="stat-value">{{ sessions_count }}</div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-label">Tasks</div>
+    <div class="stat-value">{{ tasks_count }}</div>
+  </div>
+</div>
+
+<hr />
+
+<h2>Add study session</h2>
+<form method="post" action="/sessions/new" class="form">
+  <label>Subject</label>
+  <input name="subject" placeholder="Math, CS, English..." required />
+
+  <label>Duration (minutes)</label>
+  <input name="duration_minutes" type="number" min="1" required />
+
+  <label>Focus rating (1–5)</label>
+  <input name="focus_rating" type="number" min="1" max="5" required />
+
+  <button type="submit">Add session</button>
+</form>
+
+<h2 style="margin-top:20px;">Recent sessions</h2>
+{% if sessions %}
+  <ul>
+    {% for s in sessions %}
+      <li>
+        <b>{{ s.subject }}</b> — {{ s.duration_minutes }} min — focus {{ s.focus_rating }}/5
+        <span class="muted">({{ s.started_at.strftime("%Y-%m-%d %H:%M") }})</span>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="muted">No sessions yet.</p>
+{% endif %}
+
+<hr />
+
+<h2>Add task</h2>
+<form method="post" action="/tasks/new" class="form">
+  <label>Task title</label>
+  <input name="title" placeholder="Finish homework..." required />
+  <button type="submit">Add task</button>
+</form>
+
+<h2 style="margin-top:20px;">Tasks</h2>
+{% if tasks %}
+  <ul style="padding-left: 0; list-style: none;">
+    {% for t in tasks %}
+      <li style="display:flex; align-items:center; gap:10px; margin:10px 0;">
+        <!-- Toggle (own form) -->
+        <form method="post" action="/tasks/{{ t.id }}/toggle" style="margin:0;">
+          <button type="submit">
+            {% if t.completed %}✅{% else %}⬜{% endif %}
+          </button>
+        </form>
+
+        <!-- Title (no form) -->
+        <span style="flex:1; {% if t.completed %}text-decoration: line-through; opacity:0.7;{% endif %}">
+          {{ t.title }}
+        </span>
+
+        <!-- Delete (own form) -->
+        <form method="post" action="/tasks/{{ t.id }}/delete" style="margin:0;">
+          <button type="submit">🗑️</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="muted">No tasks yet.</p>
+{% endif %}
+
+{% endblock %}

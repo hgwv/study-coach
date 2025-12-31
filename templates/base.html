@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Study Coach</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="/dashboard">Study Coach</a>
+    </div>
+
+    <div class="nav-right">
+      {% if current_user.is_authenticated %}
+        <span class="muted" style="margin-right:10px;">
+          Logged in as: <b>{{ current_user.username }}</b>
+        </span>
+        <a href="/logout">Logout</a>
+      {% else %}
+        <a href="/register">Register</a>
+        <a href="/login">Login</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <main class="card">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flash">
+          {% for msg in messages %}<li>{{ msg }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
