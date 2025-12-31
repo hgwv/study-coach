@@ -79,3 +79,30 @@ python3 app.py
 Then open: http://127.0.0.1:5000
 
 ---
+
+## Limitations
+
+- Uses SQLite without persistent storage in production (data may reset if the service restarts)
+- Insights are rule-based, not machine-learning models
+- Single-user focus (no social or group features)
+
+These trade-offs were intentional to keep the project simple and understandable.
+
+---
+
+## Future Improvements
+
+- Study streak tracking
+- Visual charts for weekly study trends
+- Export study data as CSV
+- Persistent database or Postgres
+- ML-based insight experiments (after collecting more data)
+
+---
+
+## Why this project
+
+This project was built to:
+- practice full-stack development end-to-end
+- learn how to turn raw user data into meaningful feedback
+- design systems that improve behavior and lives, not just store information
