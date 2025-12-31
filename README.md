@@ -63,7 +63,11 @@ This approach avoids “black-box AI” and keeps the logic transparent and inte
 
 ## Screenshots
 
+### Study session tracker + coach notes
+![Session tracker and coach noates](images/dashboard.png)
 
+### Tasks
+![Tasks](images/tasks.png)
 
 ---
 
@@ -77,6 +81,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python3 app.py
 Then open: http://127.0.0.1:5000
+```
 
 ---
 
