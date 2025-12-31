@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from extensions import db, login_manager
 from auth import auth_bp
@@ -7,9 +9,10 @@ def create_app():
     app = Flask(__name__)
 
     # NOTE: fine for local dev; change for deployment later
-    app.config["SECRET_KEY"] = "dev-secret-change-later"
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///studycoach.db"
+    app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "dev-secret-change-later")
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///studycoach.db")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
 
     db.init_app(app)
     login_manager.init_app(app)
