@@ -3,6 +3,7 @@
 {% block content %}
 <h1>Dashboard</h1>
 
+<!-- TOP STATS -->
 <div class="stats">
   <div class="stat">
     <div class="stat-label">Study sessions</div>
@@ -17,6 +18,41 @@
 
 <hr />
 
+<!-- WEEKLY INSIGHTS -->
+<h2>Weekly insights (last 7 days)</h2>
+
+<ul>
+  <li><b>Minutes studied:</b> {{ minutes_this_week }}</li>
+  <li><b>Days studied:</b> {{ days_studied }}</li>
+  <li>
+    <b>Average focus:</b>
+    {% if avg_focus is none %}
+      N/A
+    {% else %}
+      {{ avg_focus }} / 5
+    {% endif %}
+  </li>
+</ul>
+
+{% if subject_minutes %}
+  <h3>Minutes by subject</h3>
+  <ul>
+    {% for subject, mins in subject_minutes %}
+      <li><b>{{ subject }}:</b> {{ mins }} min</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<h3>Coach notes</h3>
+<ul>
+  {% for note in insights %}
+    <li>{{ note }}</li>
+  {% endfor %}
+</ul>
+
+<hr />
+
+<!-- ADD STUDY SESSION -->
 <h2>Add study session</h2>
 <form method="post" action="/sessions/new" class="form">
   <label>Subject</label>
@@ -47,6 +83,7 @@
 
 <hr />
 
+<!-- ADD TASK -->
 <h2>Add task</h2>
 <form method="post" action="/tasks/new" class="form">
   <label>Task title</label>
@@ -59,19 +96,19 @@
   <ul style="padding-left: 0; list-style: none;">
     {% for t in tasks %}
       <li style="display:flex; align-items:center; gap:10px; margin:10px 0;">
-        <!-- Toggle (own form) -->
+        <!-- Toggle -->
         <form method="post" action="/tasks/{{ t.id }}/toggle" style="margin:0;">
           <button type="submit">
             {% if t.completed %}✅{% else %}⬜{% endif %}
           </button>
         </form>
 
-        <!-- Title (no form) -->
+        <!-- Title -->
         <span style="flex:1; {% if t.completed %}text-decoration: line-through; opacity:0.7;{% endif %}">
           {{ t.title }}
         </span>
 
-        <!-- Delete (own form) -->
+        <!-- Delete -->
         <form method="post" action="/tasks/{{ t.id }}/delete" style="margin:0;">
           <button type="submit">🗑️</button>
         </form>
